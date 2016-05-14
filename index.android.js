@@ -8,24 +8,50 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator,
+  TouchableHighlight
 } from 'react-native';
 
 class app extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+        style={{ flex: 1 }}
+        initialRoute={{ name: 'Main', component: Main }}
+        renderScene={ this.renderScene } />
     );
+  }
+
+  renderScene(route, navigator) {
+    var Component = route.component;
+    return <Component navigator={navigator} route={route} />
+  }
+}
+
+class Home extends Component {
+  nav(_name) {
+    this.props.navigator.push({ name: _name,component:Main });
+  }
+  render() {
+    return (
+      <TouchableHighlight onPress={() => this.nav("Main") }>
+        <Text>Home mmm </Text>
+      </TouchableHighlight>
+    )
+  }
+}
+
+class Main extends Component {
+  nav(_name) {
+    this.props.navigator.push({ name: _name,component:Home });
+  }
+  render() {
+    return (
+      <TouchableHighlight onPress={() => this.nav("Home") }>
+        <Text>Main GO GO GO </Text>
+      </TouchableHighlight>
+    )
   }
 }
 
